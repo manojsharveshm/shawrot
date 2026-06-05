@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shawrot · Stop chasing. Start closing.</title>
+<meta name="description" content="Shawrot installs the finance and operations backbone for UK lending and investment firms: automated agreements, repayment monitoring, tax compliance, and live dashboards. Stop chasing. Start closing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%230A0C12'/%3E%3Cpath d='M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z' fill='%233F7DF0'/%3E%3Cpath d='M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z' fill='%23C3CCD9'/%3E%3C/svg%3E">
+<style>
+:root{
+  --ink:#0A0C12; --ink-2:#0E1320; --ink-3:#11192a; --navy:#1C2638;
+  --blue:#2B6FE0; --blue-bright:#3F7DF0; --blue-deep:#1742A8;
+  --silver:#C3CCD9; --silver-light:#F1F4F8;
+  --text:#EDF1F8; --text-dim:#8A93A6; --text-mute:#5B6678;
+  --line:#1C2230; --line-2:#222A3A;
+  --serif:'Schibsted Grotesk',-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --maxw:1200px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  font-family:var(--serif);background:var(--ink);color:var(--text);
+  line-height:1.6;overflow-x:hidden;position:relative;
+}
+::selection{background:var(--blue);color:#fff}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+/* ---------- ATMOSPHERE ---------- */
+.bg-layer{position:fixed;inset:0;z-index:-2;pointer-events:none}
+.grid-bg{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.5;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse 100% 80% at 50% 0%,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse 100% 80% at 50% 0%,#000 30%,transparent 75%);
+}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);z-index:-2;opacity:.45;pointer-events:none}
+.orb-1{width:620px;height:620px;background:radial-gradient(circle,#1742A8,transparent 70%);top:-180px;right:-120px;animation:float1 22s ease-in-out infinite}
+.orb-2{width:520px;height:520px;background:radial-gradient(circle,#2B6FE0,transparent 70%);bottom:8%;left:-160px;opacity:.28;animation:float2 28s ease-in-out infinite}
+.orb-3{width:420px;height:420px;background:radial-gradient(circle,#13306f,transparent 70%);top:42%;right:-100px;opacity:.3;animation:float1 26s ease-in-out infinite reverse}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,50px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,-40px)}}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.spotlight{position:fixed;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(63,125,240,.10),transparent 65%);pointer-events:none;z-index:-1;transform:translate(-50%,-50%);transition:opacity .4s;opacity:0}
+
+/* ---------- LAYOUT ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+section{position:relative}
+section[id]{scroll-margin-top:88px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:24px;height:1px;background:var(--blue)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--text-mute)}
+h2.sec-title{font-size:clamp(30px,4.6vw,54px);font-weight:800;letter-spacing:-1.6px;line-height:1.05;margin:18px 0 0}
+.sec-lead{color:var(--text-dim);font-size:clamp(15px,1.6vw,18px);max-width:560px;margin-top:18px}
+.grad{background:linear-gradient(120deg,#5e98ff,#2B6FE0 45%,#9fb3ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- NAV ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:all .4s}
+header.scrolled{background:rgba(8,10,17,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+nav{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:34px;height:34px}
+.brand .wm{font-size:23px;font-weight:800;letter-spacing:-1px}
+.navlinks{display:flex;gap:34px;align-items:center}
+.navlinks a{font-size:14px;color:var(--text-dim);font-weight:500;position:relative;transition:color .25s}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--blue);transition:width .3s}
+.navlinks a:hover{color:var(--text)}.navlinks a:hover::after{width:100%}
+.btn{font-family:var(--serif);font-weight:600;font-size:14px;padding:12px 22px;border-radius:10px;cursor:pointer;border:none;transition:all .3s;display:inline-flex;align-items:center;gap:9px;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 8px 30px -8px rgba(43,111,224,.7)}
+.btn-primary:hover{background:var(--blue-bright);transform:translateY(-2px);box-shadow:0 14px 38px -8px rgba(43,111,224,.85)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--blue);background:rgba(43,111,224,.08)}
+.btn .arr{transition:transform .3s}.btn:hover .arr{transform:translateX(4px)}
+.menu-btn{display:none;background:none;border:1px solid var(--line-2);border-radius:9px;padding:9px;cursor:pointer}
+.menu-btn span{display:block;width:20px;height:2px;background:var(--text);margin:4px 0;transition:.3s}
+
+/* ---------- HERO ---------- */
+.hero{padding:170px 0 90px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(42px,6.4vw,82px);font-weight:900;line-height:.98;letter-spacing:-3px;margin:22px 0 0}
+.hero h1 .line{display:block;overflow:hidden}
+.hero h1 .line span{display:inline-block;transform:translateY(110%);animation:riseIn .9s cubic-bezier(.16,1,.3,1) forwards}
+.hero .line:nth-child(2) span{animation-delay:.12s}
+.hero .line:nth-child(3) span{animation-delay:.24s}
+@keyframes riseIn{to{transform:translateY(0)}}
+.hero-sub{color:var(--text-dim);font-size:clamp(16px,1.8vw,19px);max-width:520px;margin-top:26px;opacity:0;animation:fadeUp .8s ease .5s forwards}
+.hero-cta{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s ease .65s forwards}
+.hero-meta{display:flex;gap:28px;margin-top:42px;opacity:0;animation:fadeUp .8s ease .8s forwards;flex-wrap:wrap}
+.hero-meta .m{display:flex;flex-direction:column}
+.hero-meta .m b{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.hero-meta .m small{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--text-mute);text-transform:uppercase;margin-top:2px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* hero visual */
+.hero-visual{position:relative;opacity:0;animation:fadeUp 1s ease .4s forwards}
+.viz-card{position:relative;border-radius:22px;background:linear-gradient(160deg,#11182a,#0a0d16);border:1px solid var(--line-2);padding:22px;box-shadow:0 40px 90px -30px rgba(0,0,0,.8);overflow:hidden}
+.viz-card::before{content:"";position:absolute;inset:0;background:url('assets/fintech.jpg') center/cover;opacity:.10;mix-blend-mode:luminosity}
+.viz-head{display:flex;align-items:center;justify-content:flex-start;gap:14px;position:relative;z-index:2;margin-bottom:18px}
+.viz-head .dot{display:flex;gap:6px}.viz-head .dot i{width:9px;height:9px;border-radius:50%;background:var(--line-2)}
+.viz-head .dot i:first-child{background:#2B6FE0}
+.viz-tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--text-mute);text-transform:uppercase}
+.viz-row{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-radius:11px;background:rgba(255,255,255,.025);border:1px solid var(--line);margin-bottom:10px;position:relative;z-index:2}
+.viz-row .lab{font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:10px}
+.viz-row .ic{width:26px;height:26px;border-radius:7px;background:rgba(43,111,224,.16);display:grid;place-items:center;color:var(--blue-bright)}
+.viz-row .ic svg{width:14px;height:14px}
+.pill{font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
+.pill.ok{background:rgba(63,125,240,.14);color:#9bc0ff;border:1px solid rgba(43,111,224,.3)}
+.pill.run{background:rgba(195,204,217,.1);color:var(--silver);border:1px solid var(--line-2)}
+.bar-track{height:6px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden;flex:1;margin-left:14px}
+.bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#3F7DF0,#1742A8);width:0;animation:grow 1.6s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes grow{to{width:var(--w)}}
+.viz-foot{display:flex;align-items:center;gap:10px;margin-top:16px;position:relative;z-index:2;padding-top:14px;border-top:1px solid var(--line)}
+.live{width:8px;height:8px;border-radius:50%;background:#3F7DF0;box-shadow:0 0 0 0 rgba(63,125,240,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,125,240,.6)}70%{box-shadow:0 0 0 10px rgba(63,125,240,0)}100%{box-shadow:0 0 0 0 rgba(63,125,240,0)}}
+.viz-badge{position:absolute;right:-14px;top:-26px;background:linear-gradient(135deg,#2B6FE0,#1742A8);padding:12px 16px;border-radius:14px;box-shadow:0 20px 40px -12px rgba(43,111,224,.7);animation:float1 6s ease-in-out infinite;z-index:5}
+.viz-badge b{font-size:22px;font-weight:800;display:block;letter-spacing:-.5px}
+.viz-badge small{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;opacity:.85;text-transform:uppercase}
+.viz-badge-2{position:absolute;left:-22px;bottom:-18px;background:rgba(14,19,32,.92);backdrop-filter:blur(10px);border:1px solid var(--line-2);padding:12px 16px;border-radius:13px;display:flex;align-items:center;gap:11px;animation:float2 7s ease-in-out infinite;z-index:5;box-shadow:0 20px 40px -16px rgba(0,0,0,.7)}
+.viz-badge-2 .ring{width:30px;height:30px;border-radius:50%;border:2px solid var(--blue);border-top-color:transparent;animation:spin 1.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- MARQUEE ---------- */
+.marquee-sec{padding:32px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:rgba(8,10,17,.4)}
+.mq-label{text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--text-mute);text-transform:uppercase;margin-bottom:22px}
+.marquee{display:flex;gap:60px;width:max-content;animation:scroll 26s linear infinite}
+.marquee:hover{animation-play-state:paused}
+.marquee span{font-family:var(--mono);font-size:14px;color:var(--text-dim);letter-spacing:1px;display:flex;align-items:center;gap:14px;white-space:nowrap}
+.marquee span::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- STATS ---------- */
+.stats{padding:96px 0}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:54px}
+.stat{padding:30px 26px;border-radius:18px;background:linear-gradient(160deg,rgba(20,26,40,.7),rgba(10,13,22,.7));border:1px solid var(--line);position:relative;overflow:hidden;transition:all .4s}
+.stat:hover{border-color:rgba(43,111,224,.5);transform:translateY(-6px)}
+.stat::after{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),transparent);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.stat:hover::after{transform:scaleX(1)}
+.stat .num{font-size:clamp(34px,3.6vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1}
+.stat .num .u{color:var(--blue-bright)}
+.stat .lab{font-weight:600;font-size:15px;margin-top:12px}
+.stat .desc{color:var(--text-mute);font-size:13px;margin-top:6px;font-family:var(--mono);letter-spacing:.3px}
+
+/* ---------- SERVICES ---------- */
+.services{padding:96px 0}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:56px}
+.svc{border-radius:18px;background:linear-gradient(165deg,rgba(18,24,38,.85),rgba(10,13,22,.9));border:1px solid var(--line);overflow:hidden;transition:all .45s;position:relative}
+.svc:hover{transform:translateY(-8px);border-color:rgba(43,111,224,.55);box-shadow:0 30px 60px -28px rgba(43,111,224,.4)}
+.svc-img{height:150px;position:relative;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;opacity:.55;transition:transform .7s,opacity .4s;filter:grayscale(.3)}
+.svc:hover .svc-img img{transform:scale(1.08);opacity:.7}
+.svc-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,22,.2),var(--ink-2))}
+.svc-ic{position:absolute;bottom:-22px;left:24px;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#2B6FE0,#1742A8);display:grid;place-items:center;z-index:3;box-shadow:0 12px 28px -10px rgba(43,111,224,.8)}
+.svc-ic svg{width:23px;height:23px;color:#fff}
+.svc-body{padding:38px 26px 30px}
+.svc-body h3{font-size:20px;font-weight:700;letter-spacing:-.5px}
+.svc-body p{color:var(--text-dim);font-size:14.5px;margin-top:10px}
+.svc-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.svc-tags em{font-style:normal;font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;padding:4px 9px;border-radius:6px;background:rgba(43,111,224,.1);color:#9bc0ff;border:1px solid rgba(43,111,224,.2)}
+
+/* ---------- WORKFLOW VIEWER ---------- */
+.flow{padding:96px 0}
+.flow-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-top:46px}
+.flow-tab{font-family:var(--mono);font-size:12.5px;letter-spacing:.5px;padding:11px 18px;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--text-dim);cursor:pointer;transition:all .3s;text-transform:uppercase}
+.flow-tab:hover{color:var(--text);border-color:var(--line-2)}
+.flow-tab.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 10px 26px -10px rgba(43,111,224,.7)}
+.flow-stage{margin-top:38px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(16,21,33,.7),rgba(8,10,17,.6));padding:42px 36px;min-height:340px;position:relative;overflow:hidden}
+.flow-stage::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 10%,rgba(43,111,224,.08),transparent 50%)}
+.flow-head{position:relative;z-index:2;margin-bottom:36px}
+.flow-head h3{font-size:24px;font-weight:700;letter-spacing:-.6px}
+.flow-head p{color:var(--text-dim);font-size:14.5px;margin-top:8px;max-width:620px}
+.flow-steps{display:flex;align-items:stretch;gap:0;position:relative;z-index:2;flex-wrap:wrap}
+.step{flex:1;min-width:150px;position:relative;padding:0 8px;opacity:0;transform:translateY(16px)}
+.step.show{animation:fadeUp .55s cubic-bezier(.16,1,.3,1) forwards}
+.step-node{width:54px;height:54px;border-radius:14px;background:linear-gradient(150deg,#16203a,#0c1322);border:1px solid var(--line-2);display:grid;place-items:center;position:relative;transition:all .4s}
+.step:hover .step-node{border-color:var(--blue);box-shadow:0 0 0 4px rgba(43,111,224,.12);transform:translateY(-3px)}
+.step-node svg{width:24px;height:24px;color:var(--blue-bright)}
+.step-node .idx{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-family:var(--mono);font-size:11px;font-weight:600;display:grid;place-items:center}
+.step h4{font-size:15px;font-weight:700;margin-top:18px;letter-spacing:-.3px}
+.step p{color:var(--text-mute);font-size:12.5px;margin-top:6px;font-family:var(--mono);line-height:1.5}
+.connector{position:absolute;top:27px;left:62px;right:-8px;height:2px;background:var(--line-2);overflow:hidden}
+.connector::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--blue-bright),transparent);transform:translateX(-100%);animation:flowline 2.4s linear infinite}
+@keyframes flowline{to{transform:translateX(200%)}}
+.step:last-child .connector{display:none}
+.flow-result{margin-top:34px;padding-top:26px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;position:relative;z-index:2;flex-wrap:wrap}
+.flow-result .chip{font-family:var(--mono);font-size:12px;padding:8px 14px;border-radius:9px;background:rgba(63,125,240,.1);border:1px solid rgba(43,111,224,.28);color:#9bc0ff;display:flex;align-items:center;gap:8px}
+
+/* ---------- ENGAGEMENT ---------- */
+.engage{padding:96px 0}
+.eng-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px}
+.eng{padding:34px 30px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(165deg,rgba(18,24,38,.6),rgba(10,13,22,.7));position:relative;transition:all .4s}
+.eng:hover{transform:translateY(-6px);border-color:rgba(43,111,224,.45)}
+.eng .ph{font-family:var(--mono);font-size:13px;color:var(--blue-bright);letter-spacing:2px}
+.eng h3{font-size:23px;font-weight:700;margin-top:14px;letter-spacing:-.5px}
+.eng p{color:var(--text-dim);font-size:14.5px;margin-top:12px}
+.eng ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.eng li{font-size:13.5px;color:var(--text-dim);display:flex;gap:10px;align-items:flex-start}
+.eng li svg{width:16px;height:16px;color:var(--blue);flex-shrink:0;margin-top:3px}
+.eng-line{position:absolute;top:50px;right:-22px;width:22px;height:2px;background:var(--line-2);z-index:5}
+.eng:last-child .eng-line{display:none}
+
+/* ---------- ABOUT ---------- */
+.about{padding:96px 0}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about-img{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line-2)}
+.about-img img{width:100%;height:480px;object-fit:cover;object-position:center 22%;filter:contrast(1.03)}
+.about-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,13,22,.15),rgba(10,13,22,.78))}
+.about-badge{position:absolute;left:24px;bottom:24px;z-index:3;background:rgba(8,10,17,.78);backdrop-filter:blur(12px);border:1px solid var(--line-2);border-radius:14px;padding:18px 22px}
+.about-badge b{font-size:18px;font-weight:700}
+.about-badge small{display:block;font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;margin-top:3px}
+.about p.lead{font-size:clamp(17px,2vw,20px);line-height:1.65;margin-top:22px}
+.about p.body{color:var(--text-dim);margin-top:18px;font-size:15.5px}
+.about-points{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+.ap{padding:18px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.ap b{font-size:15px;font-weight:700}
+.ap small{display:block;color:var(--text-mute);font-size:12.5px;margin-top:4px;font-family:var(--mono)}
+
+/* ---------- CTA ---------- */
+.cta{padding:60px 0 100px}
+.cta-card{border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(43,111,224,.35);background:linear-gradient(135deg,#0e2456,#0a1330 55%,#0a0d16);padding:64px 52px}
+.cta-card::before{content:"";position:absolute;top:-120px;right:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(43,111,224,.5),transparent 70%);filter:blur(40px)}
+.cta-card::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(circle at 70% 30%,#000,transparent 70%);-webkit-mask-image:radial-gradient(circle at 70% 30%,#000,transparent 70%)}
+.cta-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.cta-inner h2{font-size:clamp(30px,4vw,48px);font-weight:800;letter-spacing:-1.5px;line-height:1.05}
+.cta-inner p{color:#aebfe0;margin-top:16px;font-size:16px;max-width:420px}
+.form{display:flex;flex-direction:column;gap:13px;background:rgba(8,10,17,.55);backdrop-filter:blur(10px);padding:28px;border-radius:18px;border:1px solid var(--line-2)}
+.form input,.form select,.form textarea{font-family:var(--serif);background:rgba(255,255,255,.04);border:1px solid var(--line-2);border-radius:10px;padding:13px 15px;color:var(--text);font-size:14px;transition:border .3s;resize:none}
+.form input::placeholder,.form textarea::placeholder{color:var(--text-mute)}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--blue)}
+.form select{appearance:none;cursor:pointer}
+.form .btn-primary{justify-content:center;margin-top:4px;padding:14px}
+.form small{font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center}
+
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--line);padding:54px 0 38px}
+.foot-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
+.foot-brand .wm{font-size:22px;font-weight:800;letter-spacing:-1px}
+.foot-brand p{color:var(--text-mute);font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-top:10px}
+.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+.foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-mute);margin-bottom:16px}
+.foot-col a{display:block;color:var(--text-dim);font-size:14px;margin-bottom:11px;transition:color .25s}
+.foot-col a:hover{color:var(--blue-bright)}
+.foot-bottom{margin-top:46px;padding-top:26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.foot-bottom p{font-family:var(--mono);font-size:12px;color:var(--text-mute)}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}.reveal.d5{transition-delay:.4s}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-visual{max-width:520px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .eng-grid{grid-template-columns:1fr}.eng-line{display:none}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .cta-inner{grid-template-columns:1fr;gap:32px}
+  .navlinks{display:none}.menu-btn{display:block}
+  .navlinks.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:rgba(8,10,17,.97);backdrop-filter:blur(18px);padding:24px 28px;border-bottom:1px solid var(--line);gap:18px}
+}
+@media(max-width:620px){
+  .stat-grid,.svc-grid{grid-template-columns:1fr}
+  .hero{padding:140px 0 60px}
+  .hero h1{letter-spacing:-1.5px}
+  .flow-stage{padding:30px 22px}
+  .step{flex:none;width:100%;display:flex;gap:18px;padding:0 0 26px}
+  .connector{display:none}
+  .step-node{flex-shrink:0}
+  .about-points{grid-template-columns:1fr}
+  .cta-card{padding:40px 26px}
+  .foot-cols{gap:36px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.hero h1 .line span{transform:none}}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div>
+<div class="grain"></div>
+<div class="spotlight" id="spot"></div>
+
+<!-- NAV -->
+<header id="header">
+  <nav>
+    <a href="#top" class="brand" aria-label="Shawrot home">
+      <svg viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="transparent"/><path d="M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z" fill="#3F7DF0"/><path d="M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z" fill="#C3CCD9"/></svg>
+      <span class="wm">Shawrot</span>
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="#services">Services</a>
+      <a href="#workflow">How it works</a>
+      <a href="#engagement">Engagement</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn btn-primary">Book a call <span class="arr">→</span></a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">Finance &amp; Operations Automation</span>
+      <h1>
+        <span class="line"><span>Stop chasing.</span></span>
+        <span class="line"><span class="grad">Start closing.</span></span>
+      </h1>
+      <p class="hero-sub">Shawrot installs the operating backbone for UK lending and investment firms: automated agreements, repayment monitoring, compliance, and live dashboards. Your team stops drowning in follow-ups and gets back to closing deals.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get a free ops audit <span class="arr">→</span></a>
+        <a href="#workflow" class="btn btn-ghost">See how it works</a>
+      </div>
+      <div class="hero-meta">
+        <div class="m"><b>£21.5M</b><small>Deals systemised</small></div>
+        <div class="m"><b>900–1,300 hrs</b><small>Saved / year</small></div>
+        <div class="m"><b>100%</b><small>Data accuracy</small></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="viz-card">
+        <div class="viz-head">
+          <span class="dot"><i></i><i></i><i></i></span>
+          <span class="viz-tag">SHAWROT · OPS CONSOLE</span>
+        </div>
+        <div class="viz-row">
+          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span> Agreement generated</span>
+          <span class="pill ok">e-signed</span>
+        </div>
+        <div class="viz-row">
+          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span> Repayment tracking</span>
+          <span class="bar-track"><span class="bar-fill" style="--w:82%"></span></span>
+        </div>
+        <div class="viz-row">
+          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg></span> Tax reconciliation</span>
+          <span class="pill run">running</span>
+        </div>
+        <div class="viz-row">
+          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span> Master DB synced</span>
+          <span class="pill ok">2,360 rec</span>
+        </div>
+        <div class="viz-foot">
+          <span class="live"></span>
+          <span style="font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:.5px">385 LIVE ASSETS · 4 DASHBOARDS FEEDING 6 TEAMS</span>
+        </div>
+        <div class="viz-badge"><b>−93%</b><small>follow-up time</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-sec">
+  <p class="mq-label">Built across the finance desk</p>
+  <div class="marquee">
+    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>Tax &amp; Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
+    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>Tax &amp; Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <span class="kicker reveal">Track record</span>
+    <h2 class="sec-title reveal d1">Numbers from a real operating desk.</h2>
+    <p class="sec-lead reveal d2">Shawrot's playbook came from building 20+ live systems on a real media-financing desk. These are the results that backbone carried.</p>
+    <div class="stat-grid">
+      <div class="stat reveal d1"><div class="num"><span data-count="20" data-suffix="+">0</span></div><div class="lab">Systems &amp; dashboards built</div><div class="desc">across asset, fin, corp ops &amp; growth</div></div>
+      <div class="stat reveal d2"><div class="num">£<span data-count="21.5">0</span><span class="u">M</span></div><div class="lab">Deals run end to end</div><div class="desc">20 projects · 125 tranches</div></div>
+      <div class="stat reveal d3"><div class="num"><span data-count="1080" data-suffix="+">0</span></div><div class="lab">Agreements automated</div><div class="desc">8–10 min → under 2 min</div></div>
+      <div class="stat reveal d4"><div class="num"><span data-count="100">0</span><span class="u">%</span></div><div class="lab">Data accuracy</div><div class="desc">60–90% fewer errors</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <span class="kicker reveal">What Shawrot installs</span>
+    <h2 class="sec-title reveal d1">Six systems that run your<br>finance desk on autopilot.</h2>
+    <p class="sec-lead reveal d2">Each one replaces a manual, error-prone process with a system that's templated, automated and reported on. Built on the no-code and AI stack you already use.</p>
+    <div class="svc-grid">
+
+      <div class="svc reveal d1">
+        <div class="svc-img"><img src="assets/automation.jpg" alt="Finance operations automation">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>Lending &amp; Finance-Ops Automation</h3>
+          <p>End-to-end: onboarding → agreement → e-sign → repayment → collections. The flagship backbone that ties every desk function into one flow.</p>
+          <div class="svc-tags"><em>Specialist lenders</em><em>AIF</em><em>Fintech</em></div>
+        </div>
+      </div>
+
+      <div class="svc reveal d2">
+        <div class="svc-img"><img src="assets/documents.jpg" alt="Agreement and document automation">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13l2 2 4-4"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>Agreement &amp; Document Automation</h3>
+          <p>Template-driven generation across deal, guarantee and indemnity types, validated against your source data and signed in one click.</p>
+          <div class="svc-tags"><em>1,080 done</em><em>e-sign</em><em>Auto-validate</em></div>
+        </div>
+      </div>
+
+      <div class="svc reveal d3">
+        <div class="svc-img"><img src="assets/finance.jpg" alt="Repayment and collections monitoring">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>Repayment &amp; Collections Monitoring</h3>
+          <p>Due-date-driven status changes, auto-reminders and reconciliation. The system chases on a fixed cadence, so nothing slips through.</p>
+          <div class="svc-tags"><em>385 live assets</em><em>Auto follow-up</em></div>
+        </div>
+      </div>
+
+      <div class="svc reveal d1">
+        <div class="svc-img"><img src="assets/office.jpg" alt="Compliance and tax operations">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>Tax &amp; compliance ops (KYC / VAT)</h3>
+          <p>Tax filings, email follow-ups and KYC onboarding mailers generated and chased on a monthly and quarterly cadence. The recurring layer that never lapses.</p>
+          <div class="svc-tags"><em>India-ready</em><em>Monthly + quarterly</em></div>
+        </div>
+      </div>
+
+      <div class="svc reveal d2">
+        <div class="svc-img"><img src="assets/dashboard.jpg" alt="Financial models and data infrastructure">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>Financial Models &amp; Data Infrastructure</h3>
+          <p>One standard model with single-entry lookup and automated checks, plus a centralised master database that's the single source of truth across agreements, models and status.</p>
+          <div class="svc-tags"><em>2,360+ records</em><em>Verification engine</em></div>
+        </div>
+      </div>
+
+      <div class="svc reveal d3">
+        <div class="svc-img"><img src="assets/hero-data.jpg" alt="Live dashboards and reporting">
+          <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></div>
+        </div>
+        <div class="svc-body"><h3>No-Code Migration &amp; Live Dashboards</h3>
+          <p>Move off manual spreadsheets and ClickUp onto a structured Airtable backbone, with deal, repayment, portfolio and tax dashboards that cut your tooling spend.</p>
+          <div class="svc-tags"><em>Lower tooling spend</em><em>Airtable</em><em>6 teams</em></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW VIEWER -->
+<section class="flow" id="workflow">
+  <div class="wrap">
+    <span class="kicker reveal">See it run</span>
+    <h2 class="sec-title reveal d1">Every service is a workflow<br>you can watch end to end.</h2>
+    <p class="sec-lead reveal d2">Pick a system below to trace how work moves through it, from the trigger to the result your desk feels.</p>
+
+    <div class="flow-tabs reveal d3" id="flowTabs"></div>
+    <div class="flow-stage reveal d3" id="flowStage"></div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT -->
+<section class="engage" id="engagement">
+  <div class="wrap">
+    <span class="kicker reveal">How we work together</span>
+    <h2 class="sec-title reveal d1">A clear three-step ladder.</h2>
+    <p class="sec-lead reveal d2">Low-risk to start, sticky once it's running. You always know what comes next and what it's worth.</p>
+    <div class="eng-grid">
+      <div class="eng reveal d1">
+        <span class="ph">01 · AUDIT</span>
+        <h3>Map &amp; cost the chaos</h3>
+        <p>A fixed-scope review of where your desk leaks time and accuracy, and what automation is worth to you in hours and pounds.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Process &amp; data map</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> ROI &amp; priority shortlist</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Quick-win roadmap</li>
+        </ul>
+        <span class="eng-line"></span>
+      </div>
+      <div class="eng reveal d2">
+        <span class="ph">02 · BUILD</span>
+        <h3>Install the systems</h3>
+        <p>We build the masters, templates, automations and dashboards, wired into your existing tools and handed over clean, with checks built in.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Single source of truth</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Automations &amp; e-sign</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Live team dashboards</li>
+        </ul>
+        <span class="eng-line"></span>
+      </div>
+      <div class="eng reveal d3">
+        <span class="ph">03 · OPERATE</span>
+        <h3>Keep it running</h3>
+        <p>A retainer that owns the recurring cadences (tax, repayments, reporting), plus new workflows as the business grows.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Monthly &amp; quarterly runs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Monitoring &amp; fixes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> New system rollouts</li>
+        </ul>
+        <span class="eng-line"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-img reveal">
+      <img src="assets/manoj.jpg" alt="Manoj Sharvesh M, founder of Shawrot">
+      <div class="about-badge"><b>Manoj Sharvesh M</b><small>FOUNDER · FINANCE-OPS ARCHITECT</small></div>
+    </div>
+    <div>
+      <span class="kicker reveal">Why Shawrot</span>
+      <h2 class="sec-title reveal d1">Built by an operator who<br>ran the desk.</h2>
+      <p class="lead reveal d2">Shawrot didn't start as a product pitch. It started on a real finance desk, closing £21.5M of deals end to end while building the 20+ systems six teams ran on.</p>
+      <p class="body reveal d2">That means the workflows are tested against real deal, repayment, tax and compliance work. You get the domain knowledge of someone who's lived the chaos, and the engineering to design it out for good.</p>
+      <div class="about-points">
+        <div class="ap reveal d3"><b>70–95%</b><small>Less time on core workflows</small></div>
+        <div class="ap reveal d3"><b>15+ processes</b><small>Standardised end to end</small></div>
+        <div class="ap reveal d4"><b>6 teams</b><small>Served by one backbone</small></div>
+        <div class="ap reveal d4"><b>Lending-native</b><small>AIF, credit funds &amp; fintech ready</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div class="cta-inner">
+        <div>
+          <h2>Stop chasing.<br><span class="grad">Start closing.</span></h2>
+          <p>Tell us where your desk leaks time. We'll come back with a free, no-obligation ops audit and what it's worth to automate.</p>
+        </div>
+        <form class="form" id="leadForm">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="text" name="company" placeholder="Company">
+          <select name="need" required>
+            <option value="" disabled selected>What do you need?</option>
+            <option>Free ops audit</option>
+            <option>Agreement &amp; document automation</option>
+            <option>Repayment / collections monitoring</option>
+            <option>Tax &amp; compliance automation</option>
+            <option>Airtable migration &amp; dashboards</option>
+            <option>Something else</option>
+          </select>
+          <textarea name="message" rows="3" placeholder="A line or two about your setup"></textarea>
+          <button type="submit" class="btn btn-primary">Send &amp; book a call <span class="arr">→</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand"><svg viewBox="0 0 120 120" style="width:30px;height:30px"><path d="M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z" fill="#3F7DF0"/><path d="M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z" fill="#C3CCD9"/></svg><span class="wm">Shawrot</span></div>
+        <p>Stop chasing. Start closing.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col"><h5>Services</h5>
+          <a href="#services">Finance-ops automation</a><a href="#services">Document automation</a><a href="#services">Repayment monitoring</a><a href="#services">Tax &amp; compliance</a>
+        </div>
+        <div class="foot-col"><h5>Company</h5>
+          <a href="#about">About</a><a href="#workflow">How it works</a><a href="#engagement">Engagement</a><a href="#contact">Contact</a>
+        </div>
+        <div class="foot-col"><h5>Get in touch</h5>
+          <a href="mailto:hello@shawrot.club">hello@shawrot.club</a><a href="#contact">Book a call</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="yr"></span> Shawrot. All rights reserved.</p>
+      <p>Finance &amp; Operations Automation</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* year */
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* nav scroll state + mobile menu */
+const header=document.getElementById('header');
+addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>30));
+const menuBtn=document.getElementById('menuBtn'),navlinks=document.getElementById('navlinks');
+menuBtn.addEventListener('click',()=>navlinks.classList.toggle('open'));
+navlinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navlinks.classList.remove('open')));
+
+/* spotlight follow (desktop) */
+const spot=document.getElementById('spot');
+if(matchMedia('(pointer:fine)').matches){
+  addEventListener('mousemove',e=>{spot.style.opacity=1;spot.style.left=e.clientX+'px';spot.style.top=e.clientY+'px';});
+}
+
+/* reveal on scroll */
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* animated counters */
+function animateCount(el){
+  const target=parseFloat(el.dataset.count),suffix=el.dataset.suffix||'',dec=(String(el.dataset.count).split('.')[1]||'').length;
+  let start=0,dur=1500,t0=null;
+  function step(t){if(!t0)t0=t;const p=Math.min((t-t0)/dur,1),eased=1-Math.pow(1-p,3);
+    el.textContent=(target*eased).toLocaleString('en-GB',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suffix;
+    if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){animateCount(e.target);co.unobserve(e.target);}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
+
+/* ---------- WORKFLOW DATA ---------- */
+const ICN={
+  doc:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/>',
+  db:'<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>',
+  check:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/>',
+  pen:'<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/><path d="M2 2l7.586 7.586"/>',
+  bell:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/>',
+  chart:'<path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/>',
+  user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  calc:'<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h2M14 10h2M8 14h2M14 14h2M8 18h2M14 18h2"/>',
+  sync:'<path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>',
+  upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.5-1.5"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  bolt:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>'
+};
+const WF=[
+  {key:'agreements',label:'Agreement Automation',title:'Agreement & Document Automation',
+   desc:'A deal closes and the agreement exists: generated, validated and signed in under two minutes, then filed automatically. Same output every time.',
+   result:['8–10 min → under 2 min','1,080 agreements run','Auto-filed in master'],
+   steps:[
+     {i:ICN.doc,t:'Pick template',d:'Deal, guarantee or indemnity type'},
+     {i:ICN.db,t:'Auto-fill',d:'Pulled from the central master'},
+     {i:ICN.check,t:'Validate',d:'Checked against the fin model'},
+     {i:ICN.bolt,t:'Generate',d:'Clean document, every time'},
+     {i:ICN.pen,t:'E-sign',d:'One click, ~30 sec'},
+     {i:ICN.db,t:'File',d:'Logged back to the master DB'}
+   ]},
+  {key:'repayment',label:'Repayment Monitoring',title:'Repayment & Collections Monitoring',
+   desc:'Every live asset is watched against its due date. Status changes and reminders fire on their own, so nothing depends on someone remembering to chase.',
+   result:['385 live assets','Zero missed due dates','Auto-reconciled'],
+   steps:[
+     {i:ICN.upload,t:'Asset onboarded',d:'Repayment schedule set'},
+     {i:ICN.calc,t:'Due-date engine',d:'Tracks every instalment'},
+     {i:ICN.sync,t:'Status update',d:'Auto-flips on due date'},
+     {i:ICN.bell,t:'Follow-up',d:'Reminders sent on cadence'},
+     {i:ICN.check,t:'Reconcile',d:'Matched against receipts'},
+     {i:ICN.chart,t:'Dashboard',d:'Live portfolio view'}
+   ]},
+  {key:'tds',label:'Tax & Compliance',title:'Tax & compliance ops',
+   desc:'The recurring layer that never lapses. Records sync, tax is computed, lists and emails go out and get chased every month and quarter, automatically.',
+   result:['Monthly + quarterly','Under 10 min/run','Nothing slips'],
+   steps:[
+     {i:ICN.sync,t:'Records sync',d:'From the master DB'},
+     {i:ICN.calc,t:'Tax computed',d:'Per entity & cadence'},
+     {i:ICN.doc,t:'List generated',d:'Ready-to-file output'},
+     {i:ICN.mail,t:'Email follow-ups',d:'Chased on fixed schedule'},
+     {i:ICN.check,t:'Close',d:'Monthly / quarterly sign-off'}
+   ]},
+  {key:'onboarding',label:'KYC Onboarding',title:'Investor / Partner Onboarding & KYC',
+   desc:'A new party joins and the right communications go out instantly: welcome, KYC and cheque mailers tailored by entity type, all tracked in one place.',
+   result:['By entity type','Instant comms','Fully tracked'],
+   steps:[
+     {i:ICN.user,t:'New party',d:'Added to the system'},
+     {i:ICN.shield,t:'Entity detect',d:'Picks the right path'},
+     {i:ICN.mail,t:'KYC mailer',d:'Standardised request'},
+     {i:ICN.mail,t:'Welcome + cheque',d:'Auto-sent on confirm'},
+     {i:ICN.db,t:'Tracked',d:'Logged to the master'}
+   ]},
+  {key:'migration',label:'Airtable Migration',title:'No-Code Migration & Live Dashboards',
+   desc:'Move off scattered spreadsheets and manual ClickUp onto one structured Airtable backbone, with deal, repayment, portfolio and tax dashboards that update themselves.',
+   result:['Lower tooling spend','One source of truth','6 teams fed live'],
+   steps:[
+     {i:ICN.check,t:'Audit',d:'Map every spreadsheet'},
+     {i:ICN.link,t:'Model fields',d:'Design the schema'},
+     {i:ICN.upload,t:'Migrate',d:'Move data to Airtable'},
+     {i:ICN.db,t:'Link masters',d:'One connected source'},
+     {i:ICN.chart,t:'Dashboards',d:'Live cross-team views'}
+   ]}
+];
+
+const tabsEl=document.getElementById('flowTabs'),stageEl=document.getElementById('flowStage');
+WF.forEach((w,idx)=>{
+  const b=document.createElement('button');
+  b.className='flow-tab'+(idx===0?' active':'');b.textContent=w.label;
+  b.addEventListener('click',()=>{document.querySelectorAll('.flow-tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');renderFlow(idx);});
+  tabsEl.appendChild(b);
+});
+function renderFlow(idx){
+  const w=WF[idx];
+  let steps=w.steps.map((s,i)=>`
+    <div class="step" style="animation-delay:${i*0.09}s">
+      <div class="step-node"><span class="idx">${i+1}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${s.i}</svg></div>
+      <div class="connector"></div>
+      <h4>${s.t}</h4><p>${s.d}</p>
+    </div>`).join('');
+  let chips=w.result.map(r=>`<span class="chip"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>${r}</span>`).join('');
+  stageEl.innerHTML=`
+    <div class="flow-head"><h3>${w.title}</h3><p>${w.desc}</p></div>
+    <div class="flow-steps">${steps}</div>
+    <div class="flow-result">${chips}</div>`;
+  requestAnimationFrame(()=>{stageEl.querySelectorAll('.step').forEach(s=>s.classList.add('show'));});
+}
+renderFlow(0);
+
+/* lead form -> mailto (no backend needed; swap for your CRM/Formspree later) */
+document.getElementById('leadForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const f=e.target,d=new FormData(f);
+  const body=`Name: ${d.get('name')}%0D%0ACompany: ${d.get('company')||'-'}%0D%0ANeed: ${d.get('need')}%0D%0A%0D%0A${d.get('message')||''}`;
+  window.location.href=`mailto:hello@shawrot.club?subject=New enquiry from ${encodeURIComponent(d.get('name'))}&body=${body}`;
+});
+</script>
+</body>
+</html>
