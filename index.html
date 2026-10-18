@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shawrot · Stop chasing. Start closing.</title>
-<meta name="description" content="Shawrot installs the finance and operations backbone for UK lending and investment firms: automated agreements, repayment monitoring, tax compliance, and live dashboards. Stop chasing. Start closing.">
+<title>Curator Ledger · Stop chasing. Start closing.</title>
+<meta name="description" content="Curator Ledger installs the finance and operations backbone for Indian lenders, NBFCs and investment firms: automated agreements, repayment monitoring, TDS and GST compliance, and live dashboards. Stop chasing. Start closing.">
+<link rel="canonical" href="https://curatorledger.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Curator Ledger">
+<meta property="og:title" content="Curator Ledger · Stop chasing. Start closing.">
+<meta property="og:description" content="The operating backbone for Indian lenders, NBFCs and investment firms.">
+<meta property="og:url" content="https://curatorledger.vercel.app/">
+<meta property="og:image" content="https://curatorledger.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://curatorledger.vercel.app/og-image.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -147,6 +158,7 @@ nav{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-ite
 .stat:hover::after{transform:scaleX(1)}
 .stat .num{font-size:clamp(34px,3.6vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1}
 .stat .num .u{color:var(--blue-bright)}
+.stat .num.long{font-size:clamp(28px,2.9vw,40px);white-space:nowrap}
 .stat .lab{font-weight:600;font-size:15px;margin-top:12px}
 .stat .desc{color:var(--text-mute);font-size:13px;margin-top:6px;font-family:var(--mono);letter-spacing:.3px}
 
@@ -279,6 +291,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
   .step-node{flex-shrink:0}
   .about-points{grid-template-columns:1fr}
   .cta-card{padding:40px 26px}
+  .viz-tag-sfx{display:none}
   .foot-cols{gap:36px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.hero h1 .line span{transform:none}}
@@ -294,9 +307,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
 <!-- NAV -->
 <header id="header">
   <nav>
-    <a href="#top" class="brand" aria-label="Shawrot home">
+    <a href="#top" class="brand" aria-label="Curator Ledger home">
       <svg viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="transparent"/><path d="M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z" fill="#3F7DF0"/><path d="M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z" fill="#C3CCD9"/></svg>
-      <span class="wm">Shawrot</span>
+      <span class="wm">Curator Ledger</span>
     </a>
     <div class="navlinks" id="navlinks">
       <a href="#services">Services</a>
@@ -318,13 +331,13 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
         <span class="line"><span>Stop chasing.</span></span>
         <span class="line"><span class="grad">Start closing.</span></span>
       </h1>
-      <p class="hero-sub">Shawrot installs the operating backbone for UK lending and investment firms: automated agreements, repayment monitoring, compliance, and live dashboards. Your team stops drowning in follow-ups and gets back to closing deals.</p>
+      <p class="hero-sub">Curator Ledger installs the operating backbone for Indian lenders, NBFCs and investment firms: automated agreements, repayment monitoring, TDS and GST compliance, and live dashboards. Your team stops drowning in follow-ups and gets back to closing deals.</p>
       <div class="hero-cta">
         <a href="#contact" class="btn btn-primary">Get a free ops audit <span class="arr">→</span></a>
         <a href="#workflow" class="btn btn-ghost">See how it works</a>
       </div>
       <div class="hero-meta">
-        <div class="m"><b>£21.5M</b><small>Deals systemised</small></div>
+        <div class="m"><b>₹277.24 Cr</b><small>Deals systemised</small></div>
         <div class="m"><b>900–1,300 hrs</b><small>Saved / year</small></div>
         <div class="m"><b>100%</b><small>Data accuracy</small></div>
       </div>
@@ -333,7 +346,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
       <div class="viz-card">
         <div class="viz-head">
           <span class="dot"><i></i><i></i><i></i></span>
-          <span class="viz-tag">SHAWROT · OPS CONSOLE</span>
+          <span class="viz-tag">CURATOR LEDGER<span class="viz-tag-sfx"> · OPS CONSOLE</span></span>
         </div>
         <div class="viz-row">
           <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span> Agreement generated</span>
@@ -344,7 +357,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
           <span class="bar-track"><span class="bar-fill" style="--w:82%"></span></span>
         </div>
         <div class="viz-row">
-          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg></span> Tax reconciliation</span>
+          <span class="lab"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v16"/></svg></span> TDS reconciliation</span>
           <span class="pill run">running</span>
         </div>
         <div class="viz-row">
@@ -365,8 +378,8 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
 <div class="marquee-sec">
   <p class="mq-label">Built across the finance desk</p>
   <div class="marquee">
-    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>Tax &amp; Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
-    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>Tax &amp; Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
+    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>TDS &amp; GST Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
+    <span>Agreement Automation</span><span>Repayment Monitoring</span><span>TDS &amp; GST Compliance</span><span>KYC Onboarding</span><span>Financial Models</span><span>Airtable Migration</span><span>Live Dashboards</span><span>Doc Validation</span><span>AI Sales Funnels</span>
   </div>
 </div>
 
@@ -375,10 +388,10 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
   <div class="wrap">
     <span class="kicker reveal">Track record</span>
     <h2 class="sec-title reveal d1">Numbers from a real operating desk.</h2>
-    <p class="sec-lead reveal d2">Shawrot's playbook came from building 20+ live systems on a real media-financing desk. These are the results that backbone carried.</p>
+    <p class="sec-lead reveal d2">Curator Ledger's playbook came from building 20+ live systems on a real media-financing desk. These are the results that backbone carried.</p>
     <div class="stat-grid">
       <div class="stat reveal d1"><div class="num"><span data-count="20" data-suffix="+">0</span></div><div class="lab">Systems &amp; dashboards built</div><div class="desc">across asset, fin, corp ops &amp; growth</div></div>
-      <div class="stat reveal d2"><div class="num">£<span data-count="21.5">0</span><span class="u">M</span></div><div class="lab">Deals run end to end</div><div class="desc">20 projects · 125 tranches</div></div>
+      <div class="stat reveal d2"><div class="num long">₹<span data-count="277.24">0</span><span class="u"> Cr</span></div><div class="lab">Deals run end to end</div><div class="desc">20 projects · 125 tranches</div></div>
       <div class="stat reveal d3"><div class="num"><span data-count="1080" data-suffix="+">0</span></div><div class="lab">Agreements automated</div><div class="desc">8–10 min → under 2 min</div></div>
       <div class="stat reveal d4"><div class="num"><span data-count="100">0</span><span class="u">%</span></div><div class="lab">Data accuracy</div><div class="desc">60–90% fewer errors</div></div>
     </div>
@@ -388,7 +401,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
 <!-- SERVICES -->
 <section class="services" id="services">
   <div class="wrap">
-    <span class="kicker reveal">What Shawrot installs</span>
+    <span class="kicker reveal">What Curator Ledger installs</span>
     <h2 class="sec-title reveal d1">Six systems that run your<br>finance desk on autopilot.</h2>
     <p class="sec-lead reveal d2">Each one replaces a manual, error-prone process with a system that's templated, automated and reported on. Built on the no-code and AI stack you already use.</p>
     <div class="svc-grid">
@@ -398,7 +411,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
         <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg></div>
         <div class="svc-body"><h3>Lending &amp; Finance-Ops Automation</h3>
           <p>End-to-end: onboarding → agreement → e-sign → repayment → collections. The flagship backbone that ties every desk function into one flow.</p>
-          <div class="svc-tags"><em>Specialist lenders</em><em>AIF</em><em>Fintech</em></div>
+          <div class="svc-tags"><em>NBFCs</em><em>AIF</em><em>Fintech</em></div>
         </div>
       </div>
 
@@ -423,9 +436,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
       <div class="svc reveal d1">
         <div class="svc-img"><img src="assets/office.jpg" alt="Compliance and tax operations"></div>
         <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <div class="svc-body"><h3>Tax &amp; compliance ops (KYC / VAT)</h3>
-          <p>Tax filings, email follow-ups and KYC onboarding mailers generated and chased on a monthly and quarterly cadence. The recurring layer that never lapses.</p>
-          <div class="svc-tags"><em>UK-ready</em><em>Monthly + quarterly</em></div>
+        <div class="svc-body"><h3>Tax &amp; compliance ops (TDS / GST / KYC)</h3>
+          <p>TDS computation, GST filings, email follow-ups and KYC onboarding mailers generated and chased on a monthly and quarterly cadence. The recurring layer that never lapses.</p>
+          <div class="svc-tags"><em>TDS + GST</em><em>Monthly + quarterly</em></div>
         </div>
       </div>
 
@@ -473,7 +486,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
       <div class="eng reveal d1">
         <span class="ph">01 · AUDIT</span>
         <h3>Map &amp; cost the chaos</h3>
-        <p>A fixed-scope review of where your desk leaks time and accuracy, and what automation is worth to you in hours and pounds.</p>
+        <p>A fixed-scope review of where your desk leaks time and accuracy, and what automation is worth to you in hours and rupees.</p>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Process &amp; data map</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> ROI &amp; priority shortlist</li>
@@ -511,19 +524,19 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
 <section class="about" id="about">
   <div class="wrap about-grid">
     <div class="about-img reveal">
-      <img src="assets/manoj.jpg" alt="Manoj Sharvesh M, founder of Shawrot">
+      <img src="assets/manoj.jpg" alt="Manoj Sharvesh M, founder of Curator Ledger">
       <div class="about-badge"><b>Manoj Sharvesh M</b><small>FOUNDER · FINANCE-OPS ARCHITECT</small></div>
     </div>
     <div>
-      <span class="kicker reveal">Why Shawrot</span>
+      <span class="kicker reveal">Why Curator Ledger</span>
       <h2 class="sec-title reveal d1">Built by an operator who<br>ran the desk.</h2>
-      <p class="lead reveal d2">Shawrot didn't start as a product pitch. It started on a real finance desk, closing £21.5M of deals end to end while building the 20+ systems six teams ran on.</p>
+      <p class="lead reveal d2">Curator Ledger didn't start as a product pitch. It started on a real finance desk, closing ₹277.24 crore of deals end to end while building the 20+ systems six teams ran on.</p>
       <p class="body reveal d2">That means the workflows are tested against real deal, repayment, tax and compliance work. You get the domain knowledge of someone who's lived the chaos, and the engineering to design it out for good.</p>
       <div class="about-points">
         <div class="ap reveal d3"><b>70–95%</b><small>Less time on core workflows</small></div>
         <div class="ap reveal d3"><b>15+ processes</b><small>Standardised end to end</small></div>
         <div class="ap reveal d4"><b>6 teams</b><small>Served by one backbone</small></div>
-        <div class="ap reveal d4"><b>Lending-native</b><small>AIF, credit funds &amp; fintech ready</small></div>
+        <div class="ap reveal d4"><b>Lending-native</b><small>NBFC, AIF &amp; fintech ready</small></div>
       </div>
     </div>
   </div>
@@ -546,7 +559,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
             <option>Free ops audit</option>
             <option>Agreement &amp; document automation</option>
             <option>Repayment / collections monitoring</option>
-            <option>Tax &amp; compliance automation</option>
+            <option>TDS &amp; GST compliance automation</option>
             <option>Airtable migration &amp; dashboards</option>
             <option>Something else</option>
           </select>
@@ -563,7 +576,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <div class="brand"><svg viewBox="0 0 120 120" style="width:30px;height:30px"><path d="M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z" fill="#3F7DF0"/><path d="M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z" fill="#C3CCD9"/></svg><span class="wm">Shawrot</span></div>
+        <div class="brand"><svg viewBox="0 0 120 120" style="width:30px;height:30px"><path d="M30 24 L96 24 L96 66 L78 66 L78 42 L30 42 Z" fill="#3F7DF0"/><path d="M96 96 L30 96 L30 54 L48 54 L48 78 L96 78 Z" fill="#C3CCD9"/></svg><span class="wm">Curator Ledger</span></div>
         <p>Stop chasing. Start closing.</p>
       </div>
       <div class="foot-cols">
@@ -574,12 +587,12 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
           <a href="#about">About</a><a href="#workflow">How it works</a><a href="#engagement">Engagement</a><a href="#contact">Contact</a>
         </div>
         <div class="foot-col"><h5>Get in touch</h5>
-          <a href="mailto:hello@shawrot.club">hello@shawrot.club</a><a href="#contact">Book a call</a>
+          <a href="#contact">Book a call</a>
         </div>
       </div>
     </div>
     <div class="foot-bottom">
-      <p>© <span id="yr"></span> Shawrot. All rights reserved.</p>
+      <p>© <span id="yr"></span> Curator Ledger. All rights reserved.</p>
       <p>Finance &amp; Operations Automation</p>
     </div>
   </div>
@@ -611,7 +624,7 @@ function animateCount(el){
   const target=parseFloat(el.dataset.count),suffix=el.dataset.suffix||'',dec=(String(el.dataset.count).split('.')[1]||'').length;
   let start=0,dur=1500,t0=null;
   function step(t){if(!t0)t0=t;const p=Math.min((t-t0)/dur,1),eased=1-Math.pow(1-p,3);
-    el.textContent=(target*eased).toLocaleString('en-GB',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suffix;
+    el.textContent=(target*eased).toLocaleString('en-IN',{minimumFractionDigits:dec,maximumFractionDigits:dec})+suffix;
     if(p<1)requestAnimationFrame(step);}
   requestAnimationFrame(step);
 }
@@ -658,12 +671,12 @@ const WF=[
      {i:ICN.check,t:'Reconcile',d:'Matched against receipts'},
      {i:ICN.chart,t:'Dashboard',d:'Live portfolio view'}
    ]},
-  {key:'tds',label:'Tax & Compliance',title:'Tax & compliance ops',
+  {key:'tds',label:'TDS & GST',title:'TDS & GST compliance ops',
    desc:'The recurring layer that never lapses. Records sync, tax is computed, lists and emails go out and get chased every month and quarter, automatically.',
    result:['Monthly + quarterly','Under 10 min/run','Nothing slips'],
    steps:[
      {i:ICN.sync,t:'Records sync',d:'From the master DB'},
-     {i:ICN.calc,t:'Tax computed',d:'Per entity & cadence'},
+     {i:ICN.calc,t:'TDS computed',d:'Per entity & cadence'},
      {i:ICN.doc,t:'List generated',d:'Ready-to-file output'},
      {i:ICN.mail,t:'Email follow-ups',d:'Chased on fixed schedule'},
      {i:ICN.check,t:'Close',d:'Monthly / quarterly sign-off'}
@@ -714,12 +727,12 @@ function renderFlow(idx){
 }
 renderFlow(0);
 
-/* lead form -> mailto (no backend needed; swap for your CRM/Formspree later) */
+/* lead form: no inbox connected yet; wire to a backend (Formspree, Supabase, CRM) before relying on it */
 document.getElementById('leadForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const f=e.target,d=new FormData(f);
-  const body=`Name: ${d.get('name')}%0D%0ACompany: ${d.get('company')||'-'}%0D%0ANeed: ${d.get('need')}%0D%0A%0D%0A${d.get('message')||''}`;
-  window.location.href=`mailto:hello@shawrot.club?subject=New enquiry from ${encodeURIComponent(d.get('name'))}&body=${body}`;
+  const f=e.target;let n=f.querySelector('.form-note');
+  if(!n){n=document.createElement('small');n.className='form-note';f.appendChild(n);}
+  n.textContent='Thanks. Our enquiry inbox is being set up, so please check back shortly.';
 });
 </script>
 </body>

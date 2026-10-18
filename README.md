@@ -1,26 +1,24 @@
-# Shawrot — Website
+# Curator Ledger: Website
 
-A production-ready single-page site for Shawrot (finance & operations automation).
+A production-ready single-page site for Curator Ledger (finance & operations automation for Indian lenders, NBFCs and investment firms).
+Live at https://curatorledger.vercel.app
 Dark fintech aesthetic, brand-true (blue→navy/silver, Schibsted Grotesk + IBM Plex Mono),
 with load animations, scroll reveals, animated counters, and an interactive
 service-workflow viewer.
 
-## Two versions in this package
-1. `index.html` + `assets/`  — standard build (images kept as separate files; easiest to edit).
-2. `shawrot-website.html`     — same site as ONE self-contained file (images embedded). Drop it anywhere.
+## Files
+`index.html` + `assets/`: single-page site, images kept as separate files.
 
 ## Deploy (pick one)
-- **Netlify (fastest):** go to app.netlify.com → "Add new site" → "Deploy manually" → drag this folder in. Live in ~20s. Then point your shawrot.club domain at it.
+- **Netlify (fastest):** go to app.netlify.com → "Add new site" → "Deploy manually" → drag this folder in. Live in ~20s.
 - **Vercel:** `npx vercel` from this folder, or drag-drop in the dashboard.
 - **GitHub Pages:** push these files to a repo → Settings → Pages → deploy from branch.
 - **Any host / your own server:** upload `index.html` + `assets/` to the web root.
-- **One-file option:** upload only `shawrot-website.html` (rename to index.html) — no assets folder needed.
 
-## Before going fully live — quick edits
-- Email: replace `hello@shawrot.club` (appears in the form, footer, mailto).
-- About photo: `assets/office.jpg` is a placeholder — swap in your real headshot.
-- Lead form: currently opens the visitor's email client (mailto, no backend).
-  For captured leads, wire it to Formspree, your CRM, or Google Forms (one-line change in the script).
+## Before going fully live: quick edits
+- Email: no contact email is published yet. Add one to the footer once the inbox exists.
+- Lead form: not connected to any inbox. Submissions show a holding note and are not stored.
+  Wire it to Formspree, Supabase or your CRM before relying on it (see the script at the bottom of index.html).
 - Fonts load from Google Fonts (needs internet); self-host if you want zero external calls.
 
 ## Image credits

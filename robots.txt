@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shawrot.vercel.app/sitemap.xml
+Sitemap: https://curatorledger.vercel.app/sitemap.xml
