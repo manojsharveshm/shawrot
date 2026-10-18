@@ -262,6 +262,8 @@ nav{max-width:var(--maxw);margin:0 auto;padding:18px 28px;display:flex;align-ite
 .form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--blue)}
 .form select{appearance:none;cursor:pointer}
 .form .btn-primary{justify-content:center;margin-top:4px;padding:14px}
+.form .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form .form-note.err{color:#ff9b9b}
 .form small{font-family:var(--mono);font-size:11px;color:var(--text-mute);text-align:center}
 
 /* ---------- FOOTER ---------- */
@@ -602,8 +604,11 @@ footer{border-top:1px solid var(--line);padding:54px 0 38px}
           <p>Tell us where your desk leaks time. We'll come back with a free, no-obligation ops audit and what it's worth to automate.</p>
         </div>
         <form class="form" id="leadForm">
-          <input type="text" name="name" placeholder="Your name" required>
-          <input type="text" name="company" placeholder="Company">
+          <input type="text" name="name" placeholder="Your name" autocomplete="name" required>
+          <input type="email" name="email" placeholder="Work email" autocomplete="email" required>
+          <input type="tel" name="phone" placeholder="Phone (optional)" autocomplete="tel">
+          <input type="text" name="company" placeholder="Company" autocomplete="organization">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hp">
           <select name="need" required>
             <option value="" disabled selected>What do you need?</option>
             <option>Free ops audit</option>
@@ -783,12 +788,24 @@ function renderFlow(idx){
 }
 renderFlow(0);
 
-/* lead form: no inbox connected yet; wire to a backend (Formspree, Supabase, CRM) before relying on it */
-document.getElementById('leadForm').addEventListener('submit',e=>{
+/* lead form -> Google Sheet (Apps Script web app) */
+const LEAD_ENDPOINT='https://script.google.com/macros/s/AKfycbyqJPMCt0qfKWTEyjAO34vY-_tftGg3TX89o7Ui9EgX0l85JAanocUhEG9fmz5t2w/exec';
+const leadForm=document.getElementById('leadForm');
+leadForm.addEventListener('submit',async e=>{
   e.preventDefault();
-  const f=e.target;let n=f.querySelector('.form-note');
+  const f=e.target,btn=f.querySelector('button[type=submit]');
+  let n=f.querySelector('.form-note');
   if(!n){n=document.createElement('small');n.className='form-note';f.appendChild(n);}
-  n.textContent='Thanks. Our enquiry inbox is being set up, so please check back shortly.';
+  n.classList.remove('err');
+  const btnHTML=btn.innerHTML;btn.disabled=true;btn.textContent='Sending…';
+  try{
+    await fetch(LEAD_ENDPOINT,{method:'POST',mode:'no-cors',body:new URLSearchParams(new FormData(f))});
+    f.reset();
+    n.textContent="Thanks, we've got your details. We'll be in touch shortly to book a time.";
+  }catch(err){
+    n.classList.add('err');
+    n.textContent='Something went wrong sending that. Please try again in a moment.';
+  }finally{btn.disabled=false;btn.innerHTML=btnHTML;}
 });
 </script>
 </body>

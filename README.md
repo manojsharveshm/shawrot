@@ -17,8 +17,9 @@ service-workflow viewer.
 
 ## Before going fully live: quick edits
 - Email: no contact email is published yet. Add one to the footer once the inbox exists.
-- Lead form: not connected to any inbox. Submissions show a holding note and are not stored.
-  Wire it to Formspree, Supabase or your CRM before relying on it (see the script at the bottom of index.html).
+- Lead form: posts to a Google Apps Script web app that appends each enquiry to the "Webpage Clients" sheet
+  (curatorledger@gmail.com) and emails an alert. The script lives in the sheet under Extensions > Apps Script;
+  the endpoint URL is LEAD_ENDPOINT near the bottom of index.html.
 - Fonts load from Google Fonts (needs internet); self-host if you want zero external calls.
 
 ## Image credits
